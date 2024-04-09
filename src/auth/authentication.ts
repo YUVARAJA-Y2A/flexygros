@@ -1,35 +1,44 @@
 import express from 'express';
 import { ProtectedRequest } from 'app-request';
-import UserRepo from '../database/repository/UserRepo';
+import { PrismaClient } from '@prisma/client'; // Import PrismaClient
 import {
   AuthFailureError,
   AccessTokenError,
   TokenExpiredError,
 } from '../core/ApiError';
 import JWT from '../core/JWT';
-import KeystoreRepo from '../database/repository/KeystoreRepo';
-import { Types } from 'mongoose';
 import { getAccessToken, validateTokenData } from './authUtils';
-import validator, { ValidationSource } from '../helpers/validator';
+import validator, { ValidationSource } from '../helper/validator';
 import schema from './schema';
-import asyncHandler from '../helpers/asyncHandler';
+import asyncHandler from '../helper/asyncHandler';
+
+const prisma = new PrismaClient(); // Initialize PrismaClient
 
 const router = express.Router();
 
 export default router.use(
   validator(schema.auth, ValidationSource.HEADER),
   asyncHandler(async (req: ProtectedRequest, res, next) => {
-    req.accessToken = getAccessToken(req.headers.authorization); // Express headers are auto converted to lowercase
+    req.accessToken = getAccessToken(req.headers.authorization);
 
     try {
       const payload = await JWT.validate(req.accessToken);
       validateTokenData(payload);
 
-      const user = await UserRepo.findById(new Types.ObjectId(payload.sub));
+      // Find user by ID using Prisma
+      const user = await prisma.user.findUnique({
+        where: { id: parseInt(payload.sub) }, // Assuming ID is stored as integer
+      });
       if (!user) throw new AuthFailureError('User not registered');
       req.user = user;
 
-      const keystore = await KeystoreRepo.findforKey(req.user, payload.prm);
+      // Find keystore using Prisma
+      const keystore = await prisma.keystore.findFirst({
+        where: {
+          userId: user.id,
+          key: payload.prm,
+        },
+      });
       if (!keystore) throw new AuthFailureError('Invalid access token');
       req.keystore = keystore;
 

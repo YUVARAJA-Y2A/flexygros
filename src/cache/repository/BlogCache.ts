@@ -1,11 +1,10 @@
 import { getJson, setJson } from '../query';
-import { Types } from 'mongoose';
 import Blog from '../../database/model/Blog';
 import { DynamicKey, getDynamicKey } from '../keys';
 import { caching } from '../../config';
-import { addMillisToCurrentDate } from '../../helpers/utils';
+import { addMillisToCurrentDate } from '../../helper/utils';
 
-function getKeyForId(blogId: Types.ObjectId) {
+function getKeyForId(blogId: string) {
   return getDynamicKey(DynamicKey.BLOG, blogId.toHexString());
 }
 
@@ -21,7 +20,7 @@ async function save(blog: Blog) {
   );
 }
 
-async function fetchById(blogId: Types.ObjectId) {
+async function fetchById(blogId: string) {
   return getJson<Blog>(getKeyForId(blogId));
 }
 

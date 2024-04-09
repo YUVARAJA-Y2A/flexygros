@@ -1,15 +1,14 @@
 import { getListRange, setList } from '../query';
 import Blog from '../../database/model/Blog';
 import { DynamicKey, getDynamicKey } from '../keys';
-import { addMillisToCurrentDate } from '../../helpers/utils';
+import { addMillisToCurrentDate } from '../../helper/utils';
 import { caching } from '../../config';
-import { Types } from 'mongoose';
 
-function getKeyForSimilar(blogId: Types.ObjectId) {
+function getKeyForSimilar(blogId: string) {
   return getDynamicKey(DynamicKey.BLOGS_SIMILAR, blogId.toHexString());
 }
 
-async function saveSimilarBlogs(blogId: Types.ObjectId, blogs: Blog[]) {
+async function saveSimilarBlogs(blogId: string, blogs: Blog[]) {
   return setList(
     getKeyForSimilar(blogId),
     blogs,
@@ -17,7 +16,7 @@ async function saveSimilarBlogs(blogId: Types.ObjectId, blogs: Blog[]) {
   );
 }
 
-async function fetchSimilarBlogs(blogId: Types.ObjectId) {
+async function fetchSimilarBlogs(blogId: string) {
   return getListRange<Blog>(getKeyForSimilar(blogId));
 }
 

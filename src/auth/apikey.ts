@@ -3,8 +3,8 @@ import ApiKeyRepo from '../database/repository/ApiKeyRepo';
 import { ForbiddenError } from '../core/ApiError';
 import { PublicRequest } from 'app-request';
 import schema from './schema';
-import validator, { ValidationSource } from '../helpers/validator';
-import asyncHandler from '../helpers/asyncHandler';
+import validator, { ValidationSource } from '../helper/validator';
+import asyncHandler from '../helper/asyncHandler';
 import { Header } from '../core/utils';
 
 const router = express.Router();

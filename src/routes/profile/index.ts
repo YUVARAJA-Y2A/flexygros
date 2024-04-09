@@ -3,9 +3,9 @@ import { SuccessResponse } from '../../core/ApiResponse';
 import UserRepo from '../../database/repository/UserRepo';
 import { ProtectedRequest } from 'app-request';
 import { BadRequestError } from '../../core/ApiError';
-import validator from '../../helpers/validator';
+import validator from '../../helper/validator';
 import schema from './schema';
-import asyncHandler from '../../helpers/asyncHandler';
+import asyncHandler from '../../helper/asyncHandler';
 import _ from 'lodash';
 import authentication from '../../auth/authentication';
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import { SuccessResponse } from '../../core/ApiResponse';
-import asyncHandler from '../../helpers/asyncHandler';
-import validator, { ValidationSource } from '../../helpers/validator';
+import asyncHandler from '../../helper/asyncHandler';
+import validator, { ValidationSource } from '../../helper/validator';
 import schema from './schema';
 import { NotFoundError } from '../../core/ApiError';
 import BlogRepo from '../../database/repository/BlogRepo';

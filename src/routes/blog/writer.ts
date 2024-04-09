@@ -6,12 +6,12 @@ import BlogRepo from '../../database/repository/BlogRepo';
 import Blog from '../../database/model/Blog';
 import { RoleCode } from '../../database/model/Role';
 import { Types } from 'mongoose';
-import validator, { ValidationSource } from '../../helpers/validator';
+import validator, { ValidationSource } from '../../helper/validator';
 import schema from './schema';
-import asyncHandler from '../../helpers/asyncHandler';
+import asyncHandler from '../../helper/asyncHandler';
 import authentication from '../../auth/authentication';
 import authorization from '../../auth/authorization';
-import role from '../../helpers/role';
+import role from '../../helper/role';
 
 const router = express.Router();
 

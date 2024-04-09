@@ -1,6 +1,6 @@
 import express from 'express';
 import apikey from '../auth/apikey';
-import permission from '../helpers/permission';
+import permission from '../helper/permission';
 import { Permission } from '../database/model/ApiKey';
 import signup from './access/signup';
 import login from './access/login';
@@ -19,13 +19,13 @@ router.use(apikey);
 /*---------------------------------------------------------*/
 router.use(permission(Permission.GENERAL));
 /*---------------------------------------------------------*/
-router.use('/signup', signup);
-router.use('/login', login);
-router.use('/logout', logout);
-router.use('/token', token);
-router.use('/credential', credential);
-router.use('/profile', profile);
-router.use('/blog', blog);
-router.use('/blogs', blogs);
+router.use('/api/v1/signup', signup);
+router.use('/api/v1/login', login);
+router.use('/api/v1/logout', logout);
+router.use('/api/v1/token', token);
+router.use('/api/v1/credential', credential);
+router.use('/api/v1/profile', profile);
+router.use('/api/v1/blog', blog);
+router.use('/api/v1/blogs', blogs);
 
 export default router;

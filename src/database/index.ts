@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import Logger from '../core/Logger';
 import { db } from '../config';
 

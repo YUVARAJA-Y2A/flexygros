@@ -19,7 +19,7 @@ Note: This is the **latest (version 2)** of the project. If you are using **vers
 1. Node.js
 2. Express.js
 3. Typescript
-4. Mongoose
+4. Prisma
 5. Redis
 6. Mongodb
 7. Joi
