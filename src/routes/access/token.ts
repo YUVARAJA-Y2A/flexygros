@@ -1,7 +1,6 @@
 import express from 'express';
 import { TokenRefreshResponse } from '../../core/ApiResponse';
 import { ProtectedRequest } from 'app-request';
-import { Types } from 'mongoose';
 import UserRepo from '../../database/repository/UserRepo';
 import { AuthFailureError } from '../../core/ApiError';
 import JWT from '../../core/JWT';

@@ -1,6 +1,5 @@
 import express from 'express';
 import { ProtectedRequest } from 'app-request';
-import { PrismaClient } from '@prisma/client'; // Import PrismaClient
 import {
   AuthFailureError,
   AccessTokenError,
@@ -11,8 +10,7 @@ import { getAccessToken, validateTokenData } from './authUtils';
 import validator, { ValidationSource } from '../helper/validator';
 import schema from './schema';
 import asyncHandler from '../helper/asyncHandler';
-
-const prisma = new PrismaClient(); // Initialize PrismaClient
+import { prisma } from '../core/utils';
 
 const router = express.Router();
 

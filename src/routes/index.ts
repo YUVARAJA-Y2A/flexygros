@@ -7,8 +7,6 @@ import login from './access/login';
 import logout from './access/logout';
 import token from './access/token';
 import credential from './access/credential';
-import blog from './blog';
-import blogs from './blogs';
 import profile from './profile';
 
 const router = express.Router();
@@ -25,7 +23,5 @@ router.use('/api/v1/logout', logout);
 router.use('/api/v1/token', token);
 router.use('/api/v1/credential', credential);
 router.use('/api/v1/profile', profile);
-router.use('/api/v1/blog', blog);
-router.use('/api/v1/blogs', blogs);
 
 export default router;

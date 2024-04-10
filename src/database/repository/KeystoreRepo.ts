@@ -1,23 +1,31 @@
-import Keystore, { KeystoreModel } from '../model/Keystore';
-import { Types } from 'mongoose';
+import { PrismaClient } from '@prisma/client';
+import Keystore from '../model/Keystore';
 import User from '../model/User';
 
+const prisma = new PrismaClient();
+
 async function findforKey(client: User, key: string): Promise<Keystore | null> {
-  return KeystoreModel.findOne({
-    client: client,
-    primaryKey: key,
-    status: true,
-  })
-    .lean()
-    .exec();
+  const keystore = await prisma.keystore.findFirst({
+    where: {
+      clientId: client.id,
+      primaryKey: key,
+      status: true,
+    },
+  });
+  return keystore;
 }
 
-async function remove(id: Types.ObjectId): Promise<Keystore | null> {
-  return KeystoreModel.findByIdAndDelete(id).lean().exec();
+async function remove(id: number): Promise<Keystore | null> {
+  const keystore = await prisma.keystore.delete({
+    where: { id },
+  });
+  return keystore;
 }
 
-async function removeAllForClient(client: User) {
-  return KeystoreModel.deleteMany({ client: client }).exec();
+async function removeAllForClient(client: User): Promise<void> {
+  await prisma.keystore.deleteMany({
+    where: { clientId: client.id },
+  });
 }
 
 async function find(
@@ -25,13 +33,14 @@ async function find(
   primaryKey: string,
   secondaryKey: string,
 ): Promise<Keystore | null> {
-  return KeystoreModel.findOne({
-    client: client,
-    primaryKey: primaryKey,
-    secondaryKey: secondaryKey,
-  })
-    .lean()
-    .exec();
+  const keystore = await prisma.keystore.findFirst({
+    where: {
+      clientId: client.id,
+      primaryKey,
+      secondaryKey,
+    },
+  });
+  return keystore;
 }
 
 async function create(
@@ -39,15 +48,16 @@ async function create(
   primaryKey: string,
   secondaryKey: string,
 ): Promise<Keystore> {
-  const now = new Date();
-  const keystore = await KeystoreModel.create({
-    client: client,
-    primaryKey: primaryKey,
-    secondaryKey: secondaryKey,
-    createdAt: now,
-    updatedAt: now,
+  const keystore = await prisma.keystore.create({
+    data: {
+      client: { connect: { id: client.id } },
+      primaryKey,
+      secondaryKey,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
   });
-  return keystore.toObject();
+  return keystore;
 }
 
 export default {

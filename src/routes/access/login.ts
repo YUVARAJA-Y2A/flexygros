@@ -24,7 +24,7 @@ router.post(
 
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) throw new AuthFailureError('Authentication failure');
-
+    p;
     const accessTokenKey = crypto.randomBytes(64).toString('hex');
     const refreshTokenKey = crypto.randomBytes(64).toString('hex');
 
